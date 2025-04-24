@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Add Product</title>
   <link rel="stylesheet" href="../assets/css/layout.css">
 </head>
 <body>
@@ -30,19 +30,36 @@
   <!-- Page Content -->
   <main id="content">
     <div class="form-container">
-      <h2>Login</h2>
+      <h2>Add New Product</h2>
 
-      <form id="loginForm">
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-      </form>
+<form id="addProductForm" enctype="multipart/form-data">
+    <input type="text" id="title" name="title" placeholder="Product Title" required />
+
+    <textarea id="description" name="description" placeholder="Product Description" required></textarea>
+
+    <select id="category" name="category" required>
+      <option value="">Select Category</option>
+      <option value="mathematics">Mathematics</option>
+      <option value="physics">Physics</option>
+      <option value="chemistry">Chemistry</option>
+      <option value="computer-science">Computer Science</option>
+    </select>
+
+    <input type="number" id="price" name="price" placeholder="Price ($)" required />
+
+    <input type="file" id="file" name="file" accept=".pdf,.zip" required />
+
+    <button type="submit">Add Product</button>
+</form>
     </div>
   </main>
 
   <script src="../scripts/auth.js"></script>
   <script src="../scripts/layout.js"></script>
-  <script src="../assets/js/login.js"></script>
+  <script src="../assets/js/add-product.js"></script>
+  <script>
+    checkAuth(); 
+  </script>
 
 </body>
 </html>
