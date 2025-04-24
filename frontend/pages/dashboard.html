@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Dashboard</title>
   <link rel="stylesheet" href="../assets/css/layout.css">
 </head>
 <body>
@@ -16,11 +16,11 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="products.html">Products</a></li>
         <li id="dashboardLink" style="display: none;"><a href="dashboard.html">Dashboard</a></li>
-        <li id="addProductLink" style="display: none;"><a href="add-product.html">Add Product</a></li>
+        <li id="addProductLink"><a href="add-product.html">Add Product</a></li>
         <li id="authLinks">
           <a href="login.html">Login</a> / <a href="register.html">Register</a>
         </li>
-        <li id="logoutLink" style="display: none;">
+        <li id="logoutLink">
           <button onclick="logout()">Logout</button>
         </li>
       </ul>
@@ -30,19 +30,26 @@
   <!-- Page Content -->
   <main id="content">
     <div class="form-container">
-      <h2>Login</h2>
+      <h2>Your Products</h2>
 
-      <form id="loginForm">
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-      </form>
+      <table id="productTable">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="productList"></tbody>
+      </table>
     </div>
   </main>
 
   <script src="../scripts/auth.js"></script>
   <script src="../scripts/layout.js"></script>
-  <script src="../assets/js/login.js"></script>
+  <script src="../assets/js/dashboard.js"></script>
+  <script> checkAuth(); </script>
 
 </body>
 </html>
