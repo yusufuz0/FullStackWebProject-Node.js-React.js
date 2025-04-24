@@ -59,6 +59,8 @@ router.post('/login', async (req, res) => {
 
     const userData = snapshot.docs[0].data();
 
+
+
     // Şifre doğru mu kontrol et
     const isMatch = await bcrypt.compare(password, userData.password);
     if (!isMatch) {
@@ -67,8 +69,9 @@ router.post('/login', async (req, res) => {
 
     // Token oluştur
     const token = jwt.sign(
-      { id: userData.id, userType: userData.userType },
-      process.env.JWT_SECRET,
+      { id: userData.id,
+        userType: userData.userType },
+        process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
 

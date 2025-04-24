@@ -3,17 +3,30 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const { db } = require('./config/firebase');
+const path = require('path');
 
 
 const app = express();
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: ['http://127.0.0.1:5500', 'http://localhost:5500'],  // Frontend'in olduğu URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
+
+const productRoutes = require('./routes/productRoutes');
+app.use('/api/product', productRoutes);
+
 
 
 // Test route

@@ -75,3 +75,15 @@ body {
     background-color: #2980b9;
   }
   
+
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+  
+  input[type="file"] {
+    padding: 0.75rem;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
