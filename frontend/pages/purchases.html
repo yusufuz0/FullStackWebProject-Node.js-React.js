@@ -1,13 +1,12 @@
+<!-- purchases.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Cart</title>
-  <link rel="stylesheet" href="../assets/css/layout.css">
-  <script src="https://js.stripe.com/v3/"></script>
+  <meta charset="UTF-8" />
+  <title>My Purchases</title>
+  <link rel="stylesheet" href="../assets/css/layout.css" />
 </head>
 <body>
-
 <!-- Navigation Bar -->
 <nav class="navbar">
   <div class="container">
@@ -17,7 +16,7 @@
       <li><a href="index.html">Home</a></li>
       <li><a  id="productsLink" href="products.html" style="display: none;" >Products</a></li>
       <li id="dashboardLink" style="display: none;"><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="purchases.html" id="purchasesLink" style="display: none;">My Purchases</a></li>
+      <li><a href="purchases.html" id="purchasesLink" style="display: none;">My Purchases</a></li>
       <li><a href="cart.html"  style="display: none;" id="cartLink">Cart (<span id="cartItemCount">0</span>)</a></li> <!-- Sepet Linki -->
       <li id="authLinks">
         <a href="login.html">Login</a> / <a href="register.html">Register</a>
@@ -29,26 +28,15 @@
   </div>
 </nav>
 
-
-  <!-- Cart Content -->
-  <main class="cart-container">
-    <h2>Your Cart</h2>
-
-    <div id="cartItemsList"></div> <!-- Sepetteki ürünlerin listesi -->
-
-    <div id="cartTotal">
-      <h3>Total: $<span id="totalAmount">0</span></h3>
-      <button id="checkoutBtn">Proceed to Checkout</button>
-    </div>
+  <main class="purchases-container">
+    <h2>My Purchases</h2>
+    <div id="purchasesList"></div>
   </main>
 
   <script src="../scripts/auth.js"></script>
   <script src="../scripts/layout.js"></script>
-  <script src="../assets/js/cart.js"></script>
   <script src="../scripts/cartCount.js"></script>
-  
-
-
+  <script src="../assets/js/purchases.js"></script>
 
 </body>
 </html>
