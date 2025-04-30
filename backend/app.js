@@ -27,6 +27,13 @@ app.use('/api/auth', authRoutes);
 const productRoutes = require('./routes/productRoutes');
 app.use('/api/product', productRoutes);
 
+const cartRoutes = require('./routes/cartRoutes');
+app.use('/api/cart', cartRoutes);
+
+const stripe = require('./routes/stripe');
+app.use('/api/stripe', stripe);
+
+
 
 
 // Test route

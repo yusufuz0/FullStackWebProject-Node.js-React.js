@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>View Product</title>
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="logo">NotesMarket</a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a  id="productsLink" href="products.html" style="display: none;" >Products</a></li>
+      <li id="dashboardLink" style="display: none;"><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="purchases.html" id="purchasesLink" style="display: none;">My Purchases</a></li>
+      <li><a href="cart.html"  style="display: none;" id="cartLink">Cart (<span id="cartItemCount">0</span>)</a></li> <!-- Sepet Linki -->
+      <li id="authLinks">
+        <a href="login.html">Login</a> / <a href="register.html">Register</a>
+      </li>
+      <li id="logoutLink">
+        <button onclick="logout()">Logout</button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+  <!-- Product Content -->
+  <main class="view-product-container">
+    <h2 id="productTitle">Loading...</h2>
+    <p id="productDescription"></p>
+    <iframe id="fileViewer" style="width: 100%; height: 80vh; border: none;"></iframe>
+  </main>
+
+  <script src="../scripts/auth.js"></script>
+  <script src="../scripts/layout.js"></script>
+  <script src="../scripts/cartCount.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get('id');
+      const token = localStorage.getItem('token');
+      if (!productId || !token) return;
+
+      fetch(`http://localhost:5500/api/product/product/${productId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(product => {
+        // Ürün başlığını ve açıklamasını göster
+        document.getElementById('productTitle').textContent = product.title;
+        document.getElementById('productDescription').textContent = product.description;
+
+        const fileViewer = document.getElementById('fileViewer');
+        if (product.fileUrl.endsWith('.pdf')) {
+          fileViewer.src = `http://localhost:5500${product.fileUrl}`; // PDF dosyasını iframe içinde göster
+        } else if (product.fileUrl.endsWith('.zip')) {
+          fileViewer.outerHTML = `<p>This is a ZIP file. It cannot be previewed in the browser. <a href="http://localhost:5500${product.fileUrl}" download>Download ZIP</a></p>`;
+        } else {
+          fileViewer.outerHTML = `<p>Unsupported file format.</p>`;
+        }
+      })
+      .catch(err => {
+        console.error('Failed to load product:', err);
+        document.getElementById('productTitle').textContent = 'Failed to load product.';
+      });
+    });
+  </script>
+</body>
+</html>
