@@ -3,3 +3,4 @@
 /backend/config/firebaseServiceAccount.json
 .vscode/
 /backend/uploads/
+/backend/.env
