@@ -6,8 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
     const authLinks = document.getElementById('authLinks');
     const logoutLink = document.getElementById('logoutLink');
-    const addProductLink = document.getElementById('addProductLink');
     const dashboardLink = document.getElementById('dashboardLink');
+    const cartLink = document.getElementById('cartLink');
+    const productsLink = document.getElementById('productsLink');
+    const purchasesLink = document.getElementById('purchasesLink');
   
     if (token && user) {
       authLinks.style.display = 'none';
@@ -15,14 +17,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   
       if (user.userType === 'seller') {
-        addProductLink.style.display = 'inline';
+        productsLink.style.display = 'inline';
+        cartLink.style.display = 'inline';
+        purchasesLink.style.display = 'inline';
         dashboardLink.style.display = 'inline';
+        
+      }
+      if (user.userType === 'customer') {
+        productsLink.style.display = 'inline';
+        cartLink.style.display = 'inline';
+        purchasesLink.style.display = 'inline';
+        dashboardLink.style.display = 'inline';
+        
       }
     } else {
       authLinks.style.display = 'inline';
       logoutLink.style.display = 'none';
-      addProductLink.style.display = 'none';
-      dashboardLink.style.display = 'none';
+
+
     }
   });
   
