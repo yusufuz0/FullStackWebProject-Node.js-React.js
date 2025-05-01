@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <link rel="stylesheet" href="../assets/css/layout.css">
+  <meta charset="UTF-8" />
+  <title>Edit Product</title>
+  <link rel="stylesheet" href="../assets/css/layout.css" />
 </head>
 <body>
 
@@ -29,23 +29,35 @@
 </nav>
 
 
-  <!-- Page Content -->
-  <main id="content">
-    <div class="form-container">
-      <h2>Login</h2>
+  <main class="edit-product-container">
+    <h2>Edit Product</h2>
+    <form id="editProductForm">
+      <label for="title">Title</label>
+      <input type="text" id="title" required />
 
-      <form id="loginForm">
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+      <label for="description">Description</label>
+      <textarea id="description" rows="5" required></textarea>
+
+      <label for="price">Price ($)</label>
+      <input type="number" id="price" step="0.01" required />
+
+    <label for="category">Category</label>
+    <select id="category" required>
+      <option value="">Select Category</option>
+      <option value="mathematics">Mathematics</option>
+      <option value="physics">Physics</option>
+      <option value="chemistry">Chemistry</option>
+      <option value="computer-science">Computer Science</option>
+    </select>
+
+      <button type="submit">Update Product</button>
+    </form>
   </main>
 
   <script src="../scripts/auth.js"></script>
   <script src="../scripts/layout.js"></script>
-  <script src="../assets/js/login.js"></script>
-    <script src="../scripts/cartCount.js"></script>
+  <script src="../scripts/cartCount.js"></script>
+  <script src="../assets/js/edit-product.js"></script>
 
 </body>
 </html>

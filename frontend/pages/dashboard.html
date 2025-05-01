@@ -7,42 +7,38 @@
 </head>
 <body>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="container">
-      <a href="index.html" class="logo">NotesMarket</a>
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="logo">NotesMarket</a>
 
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="products.html">Products</a></li>
-        <li id="dashboardLink" style="display: none;"><a href="dashboard.html">Dashboard</a></li>
-        <li id="addProductLink"><a href="add-product.html">Add Product</a></li>
-        <li id="authLinks">
-          <a href="login.html">Login</a> / <a href="register.html">Register</a>
-        </li>
-        <li id="logoutLink">
-          <button onclick="logout()">Logout</button>
-        </li>
-      </ul>
-    </div>
-  </nav>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a  id="productsLink" href="products.html" style="display: none;" >Products</a></li>
+      <li id="dashboardLink" style="display: none;"><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="purchases.html" id="purchasesLink" style="display: none;">My Purchases</a></li>
+      <li><a href="cart.html"  style="display: none;" id="cartLink">Cart (<span id="cartItemCount">0</span>)</a></li> <!-- Sepet Linki -->
+      <li id="authLinks">
+        <a href="login.html">Login</a> / <a href="register.html">Register</a>
+      </li>
+      <li id="logoutLink">
+        <button onclick="logout()">Logout</button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 
   <!-- Page Content -->
   <main id="content">
-    <div class="form-container">
+    <div class="dashboard-container">
       <h2>Your Products</h2>
 
-      <table id="productTable">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="productList"></tbody>
-      </table>
+      <div id="productList">
+        <!-- Ürünler burada listelenecek -->
+      </div>
+
+       <button id="addProductBtn" onclick="window.location.href='add-product.html'">Add Product</button>
     </div>
   </main>
 
@@ -50,6 +46,7 @@
   <script src="../scripts/layout.js"></script>
   <script src="../assets/js/dashboard.js"></script>
   <script> checkAuth(); </script>
-
+  <script src="../scripts/cartCount.js"></script>
+  
 </body>
 </html>

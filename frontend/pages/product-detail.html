@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Detail</title>
+  <link rel="stylesheet" href="../assets/css/layout.css">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="logo">NotesMarket</a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a  id="productsLink" href="products.html" style="display: none;" >Products</a></li>
+      <li id="dashboardLink" style="display: none;"><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="purchases.html" id="purchasesLink" style="display: none;">My Purchases</a></li>
+      <li><a href="cart.html"  style="display: none;" id="cartLink">Cart (<span id="cartItemCount">0</span>)</a></li> <!-- Sepet Linki -->
+      <li id="authLinks">
+        <a href="login.html">Login</a> / <a href="register.html">Register</a>
+      </li>
+      <li id="logoutLink">
+        <button onclick="logout()">Logout</button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+  <!-- Product Detail Content -->
+  <main class="product-detail-container">
+    <h2 id="productTitle">Loading...</h2>
+
+    <div class="rating-section">
+      <p id="averageRating">Loading rating...</p>
+      <div id="ratingStars">
+        <!-- Yıldızlar JavaScript ile eklenecek -->
+      </div>
+
+    </div>
+
+    <p id="productDescription"></p>
+    <p><strong>Category:</strong> <span id="productCategory"></span></p>
+    <p><strong>Price:</strong> <span id="productPrice"></span> $</p>
+
+    <!-- Canvas for PDF Preview -->
+    <div id="filePreview" style="margin-top: 20px;">
+      <canvas id="pdfCanvas"></canvas>
+    </div>
+
+    <button id="addToCartBtn">Add to Cart</button>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+  <script src="../scripts/layout.js"></script>
+  <script src="../assets/js/product-detail.js"></script>
+    <script src="../scripts/cartCount.js"></script>
+  
+
+</body>
+</html>
