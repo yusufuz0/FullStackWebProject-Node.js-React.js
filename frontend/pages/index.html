@@ -29,13 +29,64 @@
 </nav>
 
 
-  <!-- Page Content -->
-  <main id="content">
-    <!-- Her sayfanın içeriği buraya yüklenir -->
-  </main>
+<!-- Page Content -->
+<main id="content">
+  <div class="home-container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>Share, Discover, Buy – Turn Your Notes Into Cash!</h1>
+      <p>Share your notes, start earning. Safely purchase the content you need.</p>
+      <div class="hero-buttons">
+        <a href="register.html" class="btn">Sell Your Notes</a>
+        <a href="products.html" class="btn btn-outline">Discover Products</a>
+      </div>
+    </section>
+
+    <!-- Popular Products -->
+    <section class="section popular-products">
+      <h2>Top Rated Products</h2>
+      <div id="top-rated-products" class="product-list">
+        <!-- JS will populate this -->
+      </div>
+      <br>
+      <a href="products.html" class="btn btn-small">View All Products</a>
+    </section>
+
+    <!-- Categories -->
+    <section class="section categories">
+      <h2>Explore by Category</h2>
+  <div class="category-list">
+    <a href="products.html?category=mathematics" class="category-box">Mathematics</a>
+    <a href="products.html?category=physics" class="category-box">Physics</a>
+    <a href="products.html?category=chemistry" class="category-box">Chemistry</a>
+    <a href="products.html?category=computer-science" class="category-box">Computer Science</a>
+  </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section how-it-works">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step"><strong>1.</strong> Create an account</div>
+        <div class="step"><strong>2.</strong> Upload a product or add to cart</div>
+        <div class="step"><strong>3.</strong> Sell / Buy</div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta">
+      <h2>Join NotesMarket Today!</h2>
+      <p>Earn money by selling your digital products or discover the notes you need.</p>
+      <a href="register.html" class="btn">Join Now</a>
+    </section>
+  </div>
+</main>
+
 
   <script src="../scripts/auth.js"></script>
   <script src="../scripts/layout.js"></script>
   <script src="../scripts/cartCount.js"></script>
+  <script src="../assets/js/index.js"></script>
+
 </body>
 </html>

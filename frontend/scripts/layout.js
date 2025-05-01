@@ -11,15 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const productsLink = document.getElementById('productsLink');
     const purchasesLink = document.getElementById('purchasesLink');
   
+
+    productsLink.style.display = 'inline';
+    
     if (token && user) {
       authLinks.style.display = 'none';
       logoutLink.style.display = 'inline';
+      
 
   
       if (user.userType === 'seller') {
         productsLink.style.display = 'inline';
-        cartLink.style.display = 'inline';
-        purchasesLink.style.display = 'inline';
         dashboardLink.style.display = 'inline';
         
       }
@@ -27,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
         productsLink.style.display = 'inline';
         cartLink.style.display = 'inline';
         purchasesLink.style.display = 'inline';
-        dashboardLink.style.display = 'inline';
         
       }
     } else {

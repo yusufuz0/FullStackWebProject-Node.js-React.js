@@ -3,38 +3,85 @@ body {
     font-family: Arial, sans-serif;
   }
   
-  .navbar {
-    background-color: #0183d9;
-    padding: 1rem;
-  }
-  
-  .navbar .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
+/* Navbar Genel */
+.navbar {
+  background: linear-gradient(90deg, #0183d9, #0071c2);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* İçerik hizalama */
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Logo */
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: opacity 0.3s ease;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+/* Linkler */
+.nav-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+.nav-links a,
+.nav-links button {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.nav-links a:hover,
+.nav-links button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+/* Mobil için (isteğe bağlı) */
+@media screen and (max-width: 768px) {
   .nav-links {
-    list-style: none;
-    display: flex;
+    flex-direction: column;
     gap: 1rem;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background: #0183d9;
+    padding: 1rem;
+    border-radius: 10px;
+    display: none;
   }
-  
-  .nav-links a, .nav-links button {
-    color: white;
-    text-decoration: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
+
+  .nav-links.open {
+    display: flex;
   }
-  
-  .logo {
-    font-size: 1.5rem;
-    color: white;
-    text-decoration: none;
-  }
-  
+}
 
   .form-container {
     max-width: 400px;
@@ -669,4 +716,174 @@ body {
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
   outline: none;
+}
+
+
+
+
+
+
+
+
+/* Genel Yapı */
+.home-container {
+  font-family: "Segoe UI", sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  padding: 0;
+  margin: 0;
+}
+
+/* Hero Bölümü */
+.home-container .hero {
+  background: linear-gradient(135deg, #4a90e2, #357ABD);
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.home-container .hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+}
+
+.home-container .hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.hero-buttons .btn {
+  margin: 10px;
+  padding: 12px 24px;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.btn {
+  background-color: #fff;
+  color: #4a90e2;
+  border: none;
+}
+
+.btn:hover {
+  background-color: #e6f0ff;
+}
+
+.btn-outline {
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.btn-small {
+  font-size: 0.9rem;
+  padding: 8px 18px;
+}
+
+/* Genel Bölümler */
+.section {
+  padding: 60px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Ürün Listesi */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.product-item {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  width: 260px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+.product-item:hover {
+  transform: translateY(-5px);
+}
+
+.product-item h3 {
+  font-size: 1.2rem;
+  color: #4a90e2;
+  margin-bottom: 10px;
+}
+.product-item p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Kategoriler */
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.category-box {
+  background: #e8f0fe;
+  color: #3367d6;
+  padding: 12px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.category-box:hover {
+  background: #d2e3fc;
+}
+
+/* Nasıl Çalışır */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  font-size: 1.1rem;
+}
+.step {
+  background: #ffffff;
+  padding: 15px 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  max-width: 500px;
+  width: 100%;
+}
+.step strong {
+  color: #4a90e2;
+  margin-right: 8px;
+}
+
+/* CTA */
+.cta {
+  background: #4a90e2;
+  color: white;
+  padding: 50px 300px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.cta .btn {
+  background: white;
+  color: #4a90e2;
+  margin-top: 20px;
+}
+.cta .btn:hover {
+  background: #e6f0ff;
 }

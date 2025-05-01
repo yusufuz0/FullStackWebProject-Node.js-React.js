@@ -5,11 +5,18 @@ const verifyToken = require('../middlewares/verifyToken');
 const upload = require('../middlewares/upload');
 
 
-
-router.get('/',  async (req, res) => {
+// Tüm ürünleri döner, eğer kategori parametresi varsa, sadece o kategoriyi döner.
+router.get('/', async (req, res) => {
   try {
-   
-    const snapshot = await db.collection('products').get();
+    const category = req.query.category; // Kategori parametresi
+    let query = db.collection('products');
+
+    // Eğer kategori varsa, filtrele
+    if (category) {
+      query = query.where('category', '==', category);
+    }
+
+    const snapshot = await query.get();
 
     if (snapshot.empty) {
       return res.status(404).json({ message: 'No products found' });
@@ -23,6 +30,8 @@ router.get('/',  async (req, res) => {
     res.status(500).json({ message: 'Something went wrong while fetching products' });
   }
 });
+
+
 
 
 
@@ -47,7 +56,7 @@ router.get('/dashboard', verifyToken, async (req, res) => {
   }
 });
 
-
+// yeni ürün ekleme işlemi
 router.post('/add', verifyToken, upload.single('file'), async (req, res) => {
   try {
     console.log('BODY:', req.body);
@@ -82,7 +91,7 @@ router.post('/add', verifyToken, upload.single('file'), async (req, res) => {
 });
 
 
-
+// ürün detay döner
 router.get('/product/:id', async (req, res) => {
   try {
     const productId = req.params.id;
@@ -108,7 +117,7 @@ router.get('/product/:id', async (req, res) => {
   }
 });
 
-
+// ürün silme işlemi
 router.delete('/delete/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
 
@@ -152,11 +161,69 @@ router.put('/update/:id', verifyToken, async (req, res) => {
 });
 
 
+// Ürünlerin puanlarını hesapla ve yüksek puanlıları sırala
+router.get('/top-rated', async (req, res) => {
+  try {
+    // Tüm ürünleri al
+    const productSnapshot = await db.collection('products').get();
+
+    if (productSnapshot.empty) {
+      return res.status(404).json({ message: 'No products found.' });
+    }
+
+    let productsWithRatings = [];
+
+    // Her ürün için, yorumları alıp puanları hesapla
+    for (const productDoc of productSnapshot.docs) {
+      const productData = productDoc.data();
+      const productId = productDoc.id;
+      
+      // Ürünle ilişkili yorumları al
+      const ratingSnapshot = await db.collection('ratings').where('productId', '==', productId).get();
+
+      if (!ratingSnapshot.empty) {
+        let totalRating = 0;
+        let ratingCount = 0;
+        
+        // Yorumları döngüyle gez ve puanları topla
+        ratingSnapshot.forEach(ratingDoc => {
+          totalRating += ratingDoc.data().score;
+          ratingCount++;
+        });
+
+        // Ortalama puanı hesapla
+        const averageRating = totalRating / ratingCount;
+
+        // Ürünü ve ortalama puanını bir arada sakla
+        productsWithRatings.push({
+          id: productId,
+          title: productData.title,
+          description: productData.description,
+          price: productData.price,
+          category: productData.category,
+          averageRating: averageRating,
+          ratingCount: ratingCount
+        });
+      }
+    }
+
+    // En yüksek puanlı ürünleri sıralama
+    productsWithRatings.sort((a, b) => b.averageRating - a.averageRating);
+
+    // Yüksek puanlı ilk 5 ürünü döndür
+    res.status(200).json({ products: productsWithRatings.slice(0, 5) });
+  } catch (error) {
+    console.error('Error fetching top-rated products:', error);
+    res.status(500).json({ message: 'Something went wrong while fetching top-rated products' });
+  }
+});
 
 
 
 
-// ürün yıldızı
+
+// ürün yıldız endpointleri
+
 router.post('/rate', verifyToken, async (req, res) => {
   try {
     const { productId, score } = req.body;
