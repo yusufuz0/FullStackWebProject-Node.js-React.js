@@ -7,25 +7,27 @@
 </head>
 <body>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="container">
-      <a href="index.html" class="logo">NotesMarket</a>
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="logo">NotesMarket</a>
 
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="products.html">Products</a></li>
-        <li id="dashboardLink" style="display: none;"><a href="dashboard.html">Dashboard</a></li>
-        <li id="addProductLink" style="display: none;"><a href="add-product.html">Add Product</a></li>
-        <li id="authLinks">
-          <a href="login.html">Login</a> / <a href="register.html">Register</a>
-        </li>
-        <li id="logoutLink" style="display: none;">
-          <button onclick="logout()">Logout</button>
-        </li>
-      </ul>
-    </div>
-  </nav>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a  id="productsLink" href="products.html" style="display: none;" >Products</a></li>
+      <li id="dashboardLink" style="display: none;"><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="purchases.html" id="purchasesLink" style="display: none;">My Purchases</a></li>
+      <li><a href="cart.html"  style="display: none;" id="cartLink">Cart (<span id="cartItemCount">0</span>)</a></li> <!-- Sepet Linki -->
+      <li id="authLinks">
+        <a href="login.html">Login</a> / <a href="register.html">Register</a>
+      </li>
+      <li id="logoutLink">
+        <button onclick="logout()">Logout</button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 
   <!-- Page Content -->
   <main id="content">
@@ -34,5 +36,6 @@
 
   <script src="../scripts/auth.js"></script>
   <script src="../scripts/layout.js"></script>
+  <script src="../scripts/cartCount.js"></script>
 </body>
 </html>
