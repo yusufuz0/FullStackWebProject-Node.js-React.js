@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
   
       if (user.userType === 'seller') {
         productsLink.style.display = 'inline';
+        cartLink.style.display = 'inline';
+        purchasesLink.style.display = 'inline';
         dashboardLink.style.display = 'inline';
         
       }
@@ -25,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         productsLink.style.display = 'inline';
         cartLink.style.display = 'inline';
         purchasesLink.style.display = 'inline';
-
+        dashboardLink.style.display = 'inline';
         
       }
     } else {
