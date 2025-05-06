@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartLink = document.getElementById('cartLink');
     const productsLink = document.getElementById('productsLink');
     const purchasesLink = document.getElementById('purchasesLink');
+    const salesLink = document.getElementById('salesLink');
+
+    
   
 
     productsLink.style.display = 'inline';
@@ -23,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (user.userType === 'seller') {
         productsLink.style.display = 'inline';
         dashboardLink.style.display = 'inline';
+        salesLink.style.display = 'inline';
         
       }
       if (user.userType === 'customer') {
