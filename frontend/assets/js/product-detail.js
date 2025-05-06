@@ -11,6 +11,8 @@ function fetchProduct(productId) {
       document.getElementById('productCategory').textContent = product.category;
       document.getElementById('productPrice').textContent = product.price;
 
+
+
       // Eğer ürünün PDF dosyası varsa
       if (product.fileUrl) {
         const ext = product.fileUrl.split('.').pop();
@@ -41,7 +43,8 @@ document.getElementById('addToCartBtn').addEventListener('click', () => {
     productId: product.id,
     title: product.title,
     price: product.price,
-    quantity: 1 // İlk eklemede 1 adet
+    quantity: 1, // İlk eklemede 1 adet
+    sellerId: product.sellerId // Ürünün satıcısının ID'si
   };
 
   fetch('http://localhost:5500/api/cart/add', {
@@ -74,14 +77,36 @@ window.addEventListener('load', () => {
   const params = new URLSearchParams(window.location.search);
   const productId = params.get('id');
 
+  // Kullanıcı türünü localStorage'dan al
+  const userStr = localStorage.getItem('user'); // 'seller' veya 'buyer' gibi bir değer olduğunu varsayalım
+  
+  let user = null;
+  if (userStr) {
+    user = JSON.parse(userStr);  // Eğer userStr mevcutsa, JSON.parse ile kullanıcı nesnesine dönüştür
+  }
+
+  const token = localStorage.getItem('token'); // Kullanıcının token'ı
+
+  // "Add to Cart" butonunu seç
+  const addToCartBtn = document.getElementById('addToCartBtn');
+  
+  // Eğer kullanıcı satıcıysa ya da token yoksa, butonu gizle
+  if (user && user.userType === 'seller' || token === null) {
+    if (addToCartBtn) {
+      addToCartBtn.style.display = 'none'; // Butonu gizle
+    }
+  }
+
   if (!productId) {
     alert("Product ID not found.");
     window.location.href = "dashboard.html";
     return;
   }
-fetchAverageRating(productId);
-renderRatingStars(productId);
-fetchUserRating(productId); // Kullanıcının önceki puanı
+
+  // Ürün bilgilerini ve kullanıcı yorumlarını al
+  fetchAverageRating(productId);
+  renderRatingStars(productId);
+  fetchUserRating(productId); // Kullanıcının önceki puanı
 
   // Ürün bilgilerini al
   fetchProduct(productId);

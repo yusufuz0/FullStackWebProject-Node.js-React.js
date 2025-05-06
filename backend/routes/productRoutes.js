@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { db } = require('../config/firebase');
-const verifyToken = require('../middlewares/verifyToken');
+const {checkAuth, checkSeller, checkCustomer} = require('../middlewares/verifyToken');
 const upload = require('../middlewares/upload');
 
 
@@ -32,11 +32,8 @@ router.get('/', async (req, res) => {
 });
 
 
-
-
-
-// satıcının yüklediği ürünleri döner
-router.get('/dashboard', verifyToken, async (req, res) => {
+// satıcının kendi ürünleri döner
+router.get('/dashboard', checkAuth,checkSeller, async (req, res) => {
   try {
     const userId = req.user.id;  // Kullanıcının ID'sini alıyoruz (verifyToken'dan)
 
@@ -56,8 +53,9 @@ router.get('/dashboard', verifyToken, async (req, res) => {
   }
 });
 
+
 // yeni ürün ekleme işlemi
-router.post('/add', verifyToken, upload.single('file'), async (req, res) => {
+router.post('/add', checkAuth,checkSeller, upload.single('file'), async (req, res) => {
   try {
     console.log('BODY:', req.body);
     console.log('FILE:', req.file);
@@ -109,7 +107,8 @@ router.get('/product/:id', async (req, res) => {
       category: productData.category,
       price: productData.price,
       fileUrl: productData.fileUrl,  // PDF dosyasının URL'si
-      id: productId,  // Ürün ID'si
+      id: productId, 
+      sellerId:productData.userId // Ürün ID'si
     });
   } catch (err) {
     console.error('Error fetching product:', err);
@@ -117,8 +116,9 @@ router.get('/product/:id', async (req, res) => {
   }
 });
 
+
 // ürün silme işlemi
-router.delete('/delete/:id', verifyToken, async (req, res) => {
+router.delete('/delete/:id', checkAuth,checkSeller, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -146,7 +146,7 @@ router.delete('/delete/:id', verifyToken, async (req, res) => {
 
 
 // Ürün güncelleme işlemi
-router.put('/update/:id', verifyToken, async (req, res) => {
+router.put('/update/:id', checkAuth, checkCustomer, async (req, res) => {
   const { id } = req.params;
   const updatedData = req.body;
 
@@ -224,7 +224,7 @@ router.get('/top-rated', async (req, res) => {
 
 // ürün yıldız endpointleri
 
-router.post('/rate', verifyToken, async (req, res) => {
+router.post('/rate', checkAuth, async (req, res) => {
   try {
     const { productId, score } = req.body;
     const userId = req.user.id;
@@ -287,7 +287,7 @@ router.get('/product/:id/rating', async (req, res) => {
 });
 
 
-router.post('/user', verifyToken, async (req, res) => {
+router.post('/user', checkAuth ,async (req, res) => {
   const userId = req.user.id;
   const { productId } = req.body;
 

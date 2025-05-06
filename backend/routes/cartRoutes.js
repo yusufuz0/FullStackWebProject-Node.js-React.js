@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const { db } = require('../config/firebase');
-const verifyToken = require('../middlewares/verifyToken');
+const {checkAuth, checkSeller, checkCustomer} = require('../middlewares/verifyToken');
 
 
 
 // GET /api/cart - Sepeti getir
-router.get('/', verifyToken, async (req, res) => {
+router.get('/', checkAuth,checkCustomer, async (req, res) => {
     const cartRef = db.collection('carts').doc(req.user.id);
     const doc = await cartRef.get();
   
@@ -15,9 +15,10 @@ router.get('/', verifyToken, async (req, res) => {
     return res.json(doc.data());
   });
   
+
  // POST /api/cart/add - Sepete ürün ekle
- router.post('/add', verifyToken, async (req, res) => {
-    const { productId, title, price, quantity } = req.body;
+ router.post('/add',checkAuth,checkCustomer, async (req, res) => {
+    const { productId, title, price, quantity, sellerId } = req.body;
     const cartRef = db.collection('carts').doc(req.user.id);
     const doc = await cartRef.get();
   
@@ -30,10 +31,10 @@ router.get('/', verifyToken, async (req, res) => {
       if (existingIndex > -1) {
         items[existingIndex].quantity += quantity;
       } else {
-        items.push({ productId, title, price, quantity });
+        items.push({ productId, title, price, quantity, sellerId });
       }
     } else {
-      items = [{ productId, title, price, quantity }];
+      items = [{ productId, title, price, quantity, sellerId }];
     }
   
     await cartRef.set({ items });
@@ -41,9 +42,8 @@ router.get('/', verifyToken, async (req, res) => {
   });
   
 
-
 // Sepetteki ürün miktarını güncelleyen API
-router.put('/update/quantity', verifyToken, async (req, res) => {
+router.put('/update/quantity', checkAuth,checkCustomer, async (req, res) => {
     const productId = req.body.productId;
     const newQuantity = req.body.quantity;  // Yeni miktar
   
@@ -74,7 +74,7 @@ router.put('/update/quantity', verifyToken, async (req, res) => {
 
 
   // DELETE /api/cart/delete - Ürünü sil
-  router.delete('/delete', verifyToken, async (req, res) => {
+  router.delete('/delete', checkAuth,checkCustomer,async (req, res) => {
     const productId = req.body.productId;
     const cartRef = db.collection('carts').doc(req.user.id);
     const doc = await cartRef.get();
@@ -90,7 +90,7 @@ router.put('/update/quantity', verifyToken, async (req, res) => {
 
 
 // Sepeti temizle (ödeme sonrası)
-router.delete('/clear', verifyToken, async (req, res) => {
+router.delete('/clear', checkAuth,checkCustomer, async (req, res) => {
     const cartRef = db.collection('carts').doc(req.user.id);
     const doc = await cartRef.get();
   
