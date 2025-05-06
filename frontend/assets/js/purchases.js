@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const div = document.createElement('div');
         div.className = 'purchase-item';
         div.innerHTML = `
-          <h4><a href="view-product.html?id=${item.productId}">${item.title}</a></h4>
+          <h4><a href="view-product.html?id=${item.productId}">${item.title} - ${item.purchasedAt}</a></h4>
         `;
         list.appendChild(div);
       });

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
-const verifyToken = (req, res, next) => {
+// Token doğrulama
+const  checkAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -12,16 +13,36 @@ const verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Kullanıcı bilgilerini req.user içine koyuyoruz
     req.user = {
       id: decoded.id,
       userType: decoded.userType
     };
 
-    next(); // İsteğe devam etsin
+    next();
   } catch (error) {
     return res.status(401).json({ message: 'Unauthorized: Invalid token' });
   }
 };
 
-module.exports = verifyToken;
+// Sadece seller'lar için kontrol
+const checkSeller = (req, res, next) => {
+  if (req.user.userType !== 'seller') {
+    return res.status(403).json({ message: 'Bad Request: Invalid user' });
+  }
+  next();
+};
+
+// Sadece customer'lar için kontrol
+const checkCustomer = (req, res, next) => {
+  if (req.user.userType !== 'customer') {
+    return res.status(403).json({ message: 'Bad Request: Invalid user' });
+  }
+  next();
+};
+
+// Export
+module.exports = {
+  checkAuth,
+  checkSeller,
+  checkCustomer
+};

@@ -17,6 +17,7 @@
       <li><a  id="productsLink" href="products.html" style="display: none;" >Products</a></li>
       <li id="dashboardLink" style="display: none;"><a href="dashboard.html">Dashboard</a></li>
       <li><a href="purchases.html" id="purchasesLink" style="display: none;">My Purchases</a></li>
+      <li><a href="sales.html" id="salesLink" style="display: none;">My Sales</a></li>
       <li><a href="cart.html"  style="display: none;" id="cartLink">Cart (<span id="cartItemCount">0</span>)</a></li> <!-- Sepet Linki -->
       <li id="authLinks">
         <a href="login.html">Login</a> / <a href="register.html">Register</a>
@@ -37,6 +38,10 @@
   <script src="../scripts/layout.js"></script>
   <script src="../scripts/cartCount.js"></script>
   <script src="../assets/js/purchases.js"></script>
+  <script> checkAuth(); </script>
+  <script> checkCustomer(); </script>
+
+  
 
 </body>
 </html>
