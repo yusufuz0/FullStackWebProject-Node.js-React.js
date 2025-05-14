@@ -7,13 +7,20 @@ const path = require('path');
 
 
 const app = express();
+app.use(cors()); // CORS'u etkinleştiriyoruz
 
 // Middlewares
-app.use(cors({
+/*app.use(cors({
   origin: ['http://127.0.0.1:5500', 'http://localhost:5500'],  // Frontend'in olduğu URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+}));*/
+
+
+
+// Webhook önce gelmeli
+app.use('/api/webhook', require('./routes/webhook'));
+
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));

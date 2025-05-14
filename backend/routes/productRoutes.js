@@ -146,7 +146,7 @@ router.delete('/delete/:id', checkAuth,checkSeller, async (req, res) => {
 
 
 // Ürün güncelleme işlemi
-router.put('/update/:id', checkAuth, checkCustomer, async (req, res) => {
+router.put('/update/:id', checkAuth, checkSeller, async (req, res) => {
   const { id } = req.params;
   const updatedData = req.body;
 
@@ -255,7 +255,7 @@ router.post('/rate', checkAuth, async (req, res) => {
       });
     }
 
-    res.status(200).json({ message: 'Rating submitted successfully.' });
+    res.status(200).json({ message: 'Thank you for your rating!' });
   } catch (error) {
     console.error('Error submitting rating:', error);
     res.status(500).json({ message: 'Failed to submit rating.', error: error.message });

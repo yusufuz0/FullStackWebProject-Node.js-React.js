@@ -1,5 +1,8 @@
 let product; // Global product değişkeni
 
+
+const messageEl = document.getElementById('Message');
+
 // Ürün bilgilerini alacak fonksiyon
 function fetchProduct(productId) {
   fetch(`http://localhost:5500/api/product/product/${productId}`)
@@ -27,7 +30,15 @@ function fetchProduct(productId) {
     })
     .catch(err => {
       console.error('Error fetching product:', err);
-      alert('There was an error loading the product.');
+        messageEl.textContent = 'There was an error loading the product.';
+        messageEl.style.color = 'red';
+        messageEl.style.display = 'block';
+  
+        // 2 saniye sonra mesajı temizle
+        setTimeout(() => {
+          messageEl.textContent = '';
+          messageEl.style.display = 'none';
+        }, 2000);
     });
 }
 
@@ -35,7 +46,15 @@ function fetchProduct(productId) {
 document.getElementById('addToCartBtn').addEventListener('click', () => {
   const token = localStorage.getItem('token');
   if (!token) {
-    alert('You must be logged in to add products to the cart.');
+    messageEl.textContent = 'You must be logged in to add products to the cart.';
+    messageEl.style.color = 'red';
+    messageEl.style.display = 'block';
+
+    // 2 saniye sonra mesajı temizle
+    setTimeout(() => {
+      messageEl.textContent = '';
+      messageEl.style.display = 'none';
+    }, 2000);
     return;
   }
 
@@ -62,13 +81,31 @@ document.getElementById('addToCartBtn').addEventListener('click', () => {
     return res.json();
   })
   .then(data => {
-    alert('Product added to your cart!');
+
+    messageEl.textContent = data.message || 'Product added to your cart!';
+    messageEl.style.color = 'green';
+    messageEl.style.display = 'block';
+
+    // 2 saniye sonra mesajı temizle
+    setTimeout(() => {
+      messageEl.textContent = '';
+      messageEl.style.display = 'none';
+    }, 2000);
+
     // Sepet sayacı güncelle (isteğe bağlı)
     updateCartItemCount(); 
   })
   .catch(err => {
     console.error('Cart error:', err);
-    alert('There was an error adding the product to the cart.');
+        messageEl.textContent = 'There was an error adding the product to the cart.';
+        messageEl.style.color = 'red';
+        messageEl.style.display = 'block';
+  
+        // 2 saniye sonra mesajı temizle
+        setTimeout(() => {
+          messageEl.textContent = '';
+          messageEl.style.display = 'none';
+        }, 2000);
   });
 });
 
@@ -98,8 +135,14 @@ window.addEventListener('load', () => {
   }
 
   if (!productId) {
-    alert("Product ID not found.");
+    messageEl.textContent = 'Product ID not found.';
+    messageEl.style.color = 'red';
+    messageEl.style.display = 'block';
+
+    setTimeout(() => {
     window.location.href = "dashboard.html";
+    }, 2000);
+
     return;
   }
 
@@ -133,7 +176,15 @@ function renderFirstPage(pdfUrl) {
     });
   }).catch(error => {
     console.error('Error rendering PDF:', error);
-    alert('Failed to render PDF.');
+        messageEl.textContent = 'Failed to render PDF.';
+        messageEl.style.color = 'red';
+        messageEl.style.display = 'block';
+  
+        // 2 saniye sonra mesajı temizle
+        setTimeout(() => {
+          messageEl.textContent = '';
+          messageEl.style.display = 'none';
+        }, 2000);
   });
 }
 
@@ -201,7 +252,13 @@ function setSelectedStars(score) {
 function submitRating(productId, score) {
   const token = localStorage.getItem('token');
   if (!token) {
-    alert('You must be logged in to rate this product.');
+    messageEl.textContent = 'You must be logged in to rate this product.';
+    messageEl.style.color = 'red';
+    messageEl.style.display = 'block';
+
+    setTimeout(() => {
+      window.location.href = "../pages/login.html";
+    }, 2000);
     return;
   }
 
@@ -218,12 +275,30 @@ function submitRating(productId, score) {
     return res.json();
   })
   .then(data => {
-    alert('Thank you for your rating!');
+
+    messageEl.textContent = data.message || 'Thank you for your rating!';
+    messageEl.style.color = 'green';
+    messageEl.style.display = 'block';
+
+    // 2 saniye sonra mesajı temizle
+    setTimeout(() => {
+      messageEl.textContent = '';
+      messageEl.style.display = 'none';
+    }, 2000);
+
     fetchAverageRating(productId);
   })
   .catch(err => {
     console.error('Rating error:', err);
-    alert('There was an error submitting your rating.');
+    messageEl.textContent = 'There was an error submitting your rating.';
+    messageEl.style.color = 'red';
+    messageEl.style.display = 'block';
+
+    // 2 saniye sonra mesajı temizle
+    setTimeout(() => {
+      messageEl.textContent = '';
+      messageEl.style.display = 'none';
+    }, 2000);
   });
 }
 
