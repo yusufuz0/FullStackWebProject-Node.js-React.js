@@ -54,7 +54,7 @@ router.post('/login', async (req, res) => {
     // Kullanıcıyı bul
     const snapshot = await usersCollection.where('email', '==', email).get();
     if (snapshot.empty) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+      return res.status(400).json({ message: 'Login failed : Invalid credentials' });
     }
 
     const userData = snapshot.docs[0].data();
@@ -64,19 +64,21 @@ router.post('/login', async (req, res) => {
     // Şifre doğru mu kontrol et
     const isMatch = await bcrypt.compare(password, userData.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+      return res.status(400).json({ message: 'Login failed : Invalid credentials' });
     }
 
     // Token oluştur
     const token = jwt.sign(
       { id: userData.id,
-        userType: userData.userType },
+        userType: userData.userType,
+        name: userData.name,
+        email: userData.email },
         process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
 
     res.json({
-      message: 'Login successful',
+      message: 'Login Successfully !',
       token,
       user: {
         id: userData.id,

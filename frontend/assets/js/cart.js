@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
   displayCartItems();
   updateTotalAmount();
@@ -65,6 +66,7 @@ function updateTotalAmount(items = []) {
 
 // Sepetten ürün sil
 function removeFromCart(productId) {
+  const messageEl = document.getElementById('Message');
   if (!token) return;
 console.log(productId)
   fetch('http://localhost:5500/api/cart/delete', {
@@ -78,16 +80,42 @@ console.log(productId)
   .then(res => res.json())
   .then(data => {
     console.log('Item removed:', data);
+    updateCartItemCount(); // Sepet sayısını güncelle
     displayCartItems();  // Sepet öğelerini yeniden listele
   })
-  .catch(err => console.error('Failed to remove item:', err));
+  .catch(err => {
+    console.error('Failed to remove item:', err)
+    // Hata mesajını göster
+    messageEl.textContent = 'Failed to remove item, please try again.';
+    messageEl.style.color = 'red';
+    messageEl.style.display = 'block';
+    // 2 saniye sonra mesajı temizle
+    setTimeout(() => {
+      messageEl.textContent = '';
+      messageEl.style.display = 'none';
+    }, 2000);
+  
+  });
 }
 
 // Ürün miktarını güncelleme fonksiyonu
 function updateItemQuantity(productId, newQuantity) {
-  if (!token) return;
+      const messageEl = document.getElementById('Message');
+  if (!token){
 
-  // API'ye PUT isteği göndermeden önce doğru URL ve veri formatını kullanın
+    messageEl.textContent = 'You are not logged in!';
+    messageEl.style.color = 'red';
+    messageEl.style.display = 'block';
+
+    // 2 saniye sonra mesajı temizle
+    setTimeout(() => {
+      messageEl.textContent = '';
+      messageEl.style.display = 'none';
+    }, 2000);
+    return;
+  }
+
+
   fetch(`http://localhost:5500/api/cart/update/quantity`, {
     method: 'PUT',
     headers: {
@@ -106,12 +134,24 @@ function updateItemQuantity(productId, newQuantity) {
       updateCartItemCount();  // Sepet sayacını güncelle
     }
   })
-  .catch(err => console.error('Failed to update quantity:', err));
+  .catch(err =>{
+   console.error('Failed to update quantity:', err) 
+    // Hata mesajını göster
+    messageEl.textContent = 'Failed to update quantity, please try again.';
+    messageEl.style.color = 'red';
+    messageEl.style.display = 'block';
+    // 2 saniye sonra mesajı temizle
+    setTimeout(() => {
+      messageEl.textContent = '';
+      messageEl.style.display = 'none';
+    }, 2000);
+  });
 }
 
 
 // STRIPE ile ödeme başlatma fonksiyonu
 function handleCheckout() {
+  const messageEl = document.getElementById('Message');
   fetch('http://localhost:5500/api/stripe/create-checkout-session', {
     method: 'POST',
     headers: {
@@ -125,6 +165,15 @@ function handleCheckout() {
     })
     .catch(err => {
       console.error('Stripe checkout error:', err);
-      alert('Failed to initiate checkout.');
+      // Hata mesajını göster
+      messageEl.textContent = 'Payment process failed, please try again.';
+      messageEl.style.color = 'red';
+      messageEl.style.display = 'block';
+
+      // 2 saniye sonra mesajı temizle
+      setTimeout(() => {
+        messageEl.textContent = '';
+        messageEl.style.display = 'none';
+      }, 2000);
     });
 }

@@ -33,7 +33,7 @@
   <!-- Product Detail Content -->
   <main class="product-detail-container">
     <h2 id="productTitle">Loading...</h2>
-
+    <p id="Message" style="display: none; margin-top: 10px;"></p>
     <div class="rating-section">
       <p id="averageRating">Loading rating...</p>
       <div id="ratingStars">
@@ -50,14 +50,14 @@
     <div id="filePreview" style="margin-top: 20px;">
       <canvas id="pdfCanvas"></canvas>
     </div>
-
     <button id="addToCartBtn">Add to Cart</button>
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
   <script src="../scripts/layout.js"></script>
-  <script src="../assets/js/product-detail.js"></script>
+  <script  type="module" src="../assets/js/product-detail.js"></script>
   <script src="../scripts/cartCount.js"></script>
+    <script src="../scripts/auth.js"></script>
   
 
 </body>

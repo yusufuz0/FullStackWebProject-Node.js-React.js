@@ -5,6 +5,7 @@ loginForm.addEventListener('submit', async (e) => {
 
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
+  const loginMessageEl = document.getElementById('Message');
 
   try {
     const res = await fetch('http://localhost:5500/api/auth/login', {
@@ -18,13 +19,32 @@ loginForm.addEventListener('submit', async (e) => {
     if (res.ok) {
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
-      alert('Login successful!');
-      window.location.href = '../pages/index.html'; // Anasayfaya yönlendiriyoruz
+
+      // Başarı mesajını göster
+      loginMessageEl.textContent = data.message || 'Login Successfully !';
+      loginMessageEl.style.color = 'green';
+      loginMessageEl.style.display = 'block';
+
+      // 2 saniye sonra yönlendir
+      setTimeout(() => {
+        window.location.href = '../pages/index.html';
+      }, 3000);
     } else {
-      alert(data.message || 'Login failed');
+      // Hata mesajını göster
+      loginMessageEl.textContent = data.message || 'Login failed : Invalid credentials';
+      loginMessageEl.style.color = 'red';
+      loginMessageEl.style.display = 'block';
+
+    // 2 saniye sonra mesajı temizle
+    setTimeout(() => {
+      loginMessageEl.textContent = '';
+      loginMessageEl.style.display = 'none';
+    }, 3000);
     }
   } catch (error) {
     console.error(error);
-    alert('An error occurred');
+    loginMessageEl.textContent = 'An error occurred';
+    loginMessageEl.style.color = 'red';
+    loginMessageEl.style.display = 'block';
   }
 });

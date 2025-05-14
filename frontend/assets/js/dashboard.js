@@ -29,17 +29,32 @@ async function loadProducts() {
       } else {
         document.getElementById('productList').innerHTML = '<p>No products available</p>';
       }
-    } catch (error) {
-      console.error('Error loading products:', error);
-      alert('Failed to load products');
+    } catch(err) {
+      console.error('Error loading products:', err);
+        // Hata mesajını göster
+        messageEl.textContent = 'Failed to load products, please try again.';
+        messageEl.style.color = 'red';
+        messageEl.style.display = 'block';
+  
+        // 2 saniye sonra mesajı temizle
+        setTimeout(() => {
+          messageEl.textContent = '';
+          messageEl.style.display = 'none';
+        }, 2000);
     }
   }
   
   // Sayfa yüklendiğinde ürünleri yükle
   window.onload = loadProducts;
+  const messageEl = document.getElementById('Message');
+
+
   
+
+  // Ürün silme fonksiyonu
   async function deleteProduct(productId) {
     const token = localStorage.getItem('token');
+
   
     try {
       const res = await fetch(`http://localhost:5500/api/product/delete/${productId}`, {
@@ -51,12 +66,30 @@ async function loadProducts() {
   
       const data = await res.json();
       if (data.message === 'Product deleted successfully') {
-        alert('Product deleted');
+
+        messageEl.textContent = data.message || 'Product deleted';
+        messageEl.style.color = 'green';
+        messageEl.style.display = 'block';
+    
+        // 2 saniye sonra mesajı temizle
+        setTimeout(() => {
+          messageEl.textContent = '';
+          messageEl.style.display = 'none';
+        }, 3000);
+
         loadProducts(); // Tekrar yükle
       }
-    } catch (error) {
-      console.error('Error deleting product:', error);
-      alert('Failed to delete product');
+    } catch(err) {
+      console.error('Error deleting product:', err);
+        messageEl.textContent = 'Failed to delete product';
+        messageEl.style.color = 'red';
+        messageEl.style.display = 'block';
+  
+        // 2 saniye sonra mesajı temizle
+        setTimeout(() => {
+          messageEl.textContent = '';
+          messageEl.style.display = 'none';
+        }, 2000);
     }
   }
   

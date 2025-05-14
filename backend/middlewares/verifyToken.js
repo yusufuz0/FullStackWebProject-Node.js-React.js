@@ -15,7 +15,9 @@ const  checkAuth = (req, res, next) => {
 
     req.user = {
       id: decoded.id,
-      userType: decoded.userType
+      name: decoded.name,
+      email: decoded.email,
+      userType: decoded.userType,
     };
 
     next();

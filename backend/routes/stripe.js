@@ -39,6 +39,17 @@ router.post('/create-checkout-session', checkAuth,checkCustomer, async (req, res
       mode: 'payment',
       success_url: 'http://127.0.0.1:5500/frontend/pages/success.html',
       cancel_url: 'http://127.0.0.1:5500/frontend/pages/cart.html',
+      locale:'en',
+      customer_email: req.user.email,
+      shipping_address_collection: {
+        allowed_countries: ['TR','GB'], // Sadece Türkiye ve İngiltere'den gönderim
+      },
+      billing_address_collection: 'required', 
+      metadata: {
+        userId: req.user.id,
+        cartId: doc.id
+      }
+      
     });
 
     res.json({ id: session.id });
@@ -103,6 +114,7 @@ router.post('/mark-purchased', checkAuth,checkCustomer, async (req, res) => {
           sellerId: item.sellerId,
           productId: item.productId,
           quantitySold: item.quantity,
+          price: item.price,
           lastSoldAt: timestamp
         });
       }
@@ -110,6 +122,29 @@ router.post('/mark-purchased', checkAuth,checkCustomer, async (req, res) => {
       productSalesUpdates.push(saleRef);
     }
 
+
+
+
+    // Veritanbanı için Loglama
+    const logsRef = db.collection('logs');
+    const logsUpdates = []; 
+
+
+    for (const item of cartItems) {
+      const logRef = logsRef.doc(`${req.user.id || "101"}_${item.productId}`);
+      const logDoc = await logRef.get();
+
+
+        await logRef.set({
+          customerId: req.user.id,
+          productId: item.productId,
+          price: item.price,
+          date: timestamp
+        });
+      
+
+      logsUpdates.push(logRef);
+    }
 
 
     await purchaseRef.set({ items: updatedItems });
@@ -120,7 +155,6 @@ router.post('/mark-purchased', checkAuth,checkCustomer, async (req, res) => {
     res.status(500).json({ message: 'Error recording purchase' });
   }
 });
-
 
 
 // GET /api/purchases - Kullanıcının satın aldığı ürünleri döner
@@ -171,11 +205,16 @@ router.get('/seller-sales', checkAuth, checkSeller, async (req, res) => {
       .get();
 
     if (salesSnapshot.empty) {
-      return res.status(404).json({ message: 'No sales found for this seller.' });
+      return res.status(404).json({ message: 'No sales found for this seller.', totalRevenue: 0, sales: [] });
     }
 
     const sales = salesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    
+
+    // Toplam kazancı hesapla (price * quantity)
+    const totalRevenue = sales.reduce((sum, sale) => {
+      return sum + ((sale.price || 0) * (sale.quantitySold || 1));
+    }, 0);
+
     // Satışlardaki tüm benzersiz ürün ID'lerini topla
     const productIds = [...new Set(sales.map(sale => sale.productId))];
 
@@ -197,13 +236,17 @@ router.get('/seller-sales', checkAuth, checkSeller, async (req, res) => {
       productTitle: productMap[sale.productId] || 'Unknown Product'
     }));
 
-    res.status(200).json({ sales: salesWithProductTitles });
+    res.status(200).json({ 
+      sales: salesWithProductTitles,
+      totalRevenue // toplam kazanç
+    });
 
   } catch (error) {
     console.error('Error fetching sales:', error);
     res.status(500).json({ message: 'Failed to fetch sales.' });
   }
 });
+
 
 
 module.exports = router;

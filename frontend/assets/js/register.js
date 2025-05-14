@@ -7,6 +7,7 @@ registerForm.addEventListener('submit', async (e) => {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
   const userType = document.getElementById('userType').value;
+  const messageEl = document.getElementById('Message'); // Doğru referans
 
   try {
     const res = await fetch('http://localhost:5500/api/auth/register', {
@@ -18,13 +19,31 @@ registerForm.addEventListener('submit', async (e) => {
     const data = await res.json();
 
     if (res.ok) {
-      alert('Registered successfully! Now you can login.');
-      window.location.href = 'login.html';
+      // Başarı mesajını göster
+      messageEl.textContent = data.message || 'Registered successfully! Now you can login.';
+      messageEl.style.color = 'green';
+      messageEl.style.display = 'block';
+
+      // 2 saniye sonra login sayfasına yönlendir
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 2000);
     } else {
-      alert(data.message || 'Registration failed');
+      // Hata mesajını göster
+      messageEl.textContent = data.message || 'Registration failed';
+      messageEl.style.color = 'red';
+      messageEl.style.display = 'block';
+
+      // 2 saniye sonra mesajı temizle
+      setTimeout(() => {
+        messageEl.textContent = '';
+        messageEl.style.display = 'none';
+      }, 2000);
     }
   } catch (error) {
     console.error(error);
-    alert('An error occurred');
+    messageEl.textContent = 'An error occurred';
+    messageEl.style.color = 'red';
+    messageEl.style.display = 'block';
   }
 });

@@ -2,10 +2,20 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
   e.preventDefault();
 
   const formData = new FormData(this);  // Direkt formdan verileri al
+  const messageEl = document.getElementById('Message');
 
   const token = localStorage.getItem('token');
   if (!token) {
-    alert('You are not logged in!');
+        // Hata mesajını göster
+        messageEl.textContent = 'You are not logged in!';
+        messageEl.style.color = 'red';
+        messageEl.style.display = 'block';
+  
+        // 2 saniye sonra mesajı temizle
+        setTimeout(() => {
+          messageEl.textContent = '';
+          messageEl.style.display = 'none';
+        }, 2000);
     return;
   }
 
@@ -25,16 +35,33 @@ console.log("STATE POİNT 1")
     const data = await res.json();
     console.log("STATE POİNT 3")
 
-    if (!res.ok) {
-      throw new Error(data.message || 'Failed to add product');
-    }
+    if (res.ok) {      
+    messageEl.textContent = data.message || 'Product added successfully!';
+    messageEl.style.color = 'green';
+    messageEl.style.display = 'block';
 
-    console.log(data);
-    alert('Product added successfully!');
-    window.location.href = '../pages/index.html';
+
+    setTimeout(() => {
+      window.location.href = '../pages/dashboard.html';
+    }, 2000);
+
+    } else {
+            // Hata mesajını göster
+            messageEl.textContent = data.message || 'Failed to add product';
+            messageEl.style.color = 'red';
+            messageEl.style.display = 'block';
+      
+            // 2 saniye sonra mesajı temizle
+            setTimeout(() => {
+              messageEl.textContent = '';
+              messageEl.style.display = 'none';
+            }, 2000);
+    }
   } 
   catch (err) {
-    console.error('Error details: ', err);
-    alert('Error adding product: ' + err.message);
+    console.error(err);
+    messageEl.textContent = 'An error occurred, please try again.';
+    messageEl.style.color = 'red';
+    messageEl.style.display = 'block';
   }
 });

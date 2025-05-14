@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const descriptionInput = document.getElementById('description');
     const priceInput = document.getElementById('price');
     const categoryInput = document.getElementById('category');
+
+    const messageEl = document.getElementById('Message');
   
 // Ürünü getirme
 fetch(`http://localhost:5500/api/product/product/${productId}`, {
@@ -27,8 +29,16 @@ fetch(`http://localhost:5500/api/product/product/${productId}`, {
       categorySelect.value = product.category || "";
     })
     .catch(err => {
-      console.error('Failed to fetch product:', err);
-      alert('Failed to load product.');
+      console.error('Error fetching product:', err);
+        messageEl.textContent = +'Failed to load product, please try again.';
+        messageEl.style.color = 'red';
+        messageEl.style.display = 'block';
+  
+        // 2 saniye sonra mesajı temizle
+        setTimeout(() => {
+          messageEl.textContent = '';
+          messageEl.style.display = 'none';
+        }, 2000);
     });
   
   
@@ -53,12 +63,28 @@ fetch(`http://localhost:5500/api/product/product/${productId}`, {
       })
         .then(res => res.json())
         .then(response => {
-          alert('Product updated successfully');
-          window.location.href = 'dashboard.html';
+
+          messageEl.textContent = response.message || 'Product updated successfully';
+          messageEl.style.color = 'white';
+          messageEl.style.display = 'block';
+      
+          setTimeout(() => {
+            window.location.href = 'dashboard.html';
+          }, 2000);
+
+
         })
         .catch(err => {
-          console.error('Update failed:', err);
-          alert('Failed to update product.');
+          console.error('Error updating product:', err);
+        messageEl.textContent ='Failed to update product, please try again.';
+        messageEl.style.color = 'red';
+        messageEl.style.display = 'block';
+  
+        // 2 saniye sonra mesajı temizle
+        setTimeout(() => {
+          messageEl.textContent = '';
+          messageEl.style.display = 'none';
+        }, 2000);
         });
     });
   });

@@ -38,7 +38,7 @@ router.get('/', checkAuth,checkCustomer, async (req, res) => {
     }
   
     await cartRef.set({ items });
-    res.json({ message: 'Cart updated', items });
+    res.json({ message: 'Product added to your cart!', items });
   });
   
 
