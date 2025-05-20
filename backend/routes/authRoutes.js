@@ -3,6 +3,10 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { db } = require('../config/firebase');
+const {checkAuth, checkSeller, checkCustomer} = require('../middlewares/verifyToken');
+
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 
 const usersCollection = db.collection('users');
 
@@ -24,14 +28,30 @@ router.post('/register', async (req, res) => {
     // Şifreyi hashle
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Kullanıcıyı kaydet
+    // Yeni kullanıcı referansı
     const newUserRef = usersCollection.doc();
+    const userId = newUserRef.id;
+
+    // Eğer satıcıysa Stripe Connect hesabı oluştur
+    let stripeAccountId = null;
+    if (userType === 'seller') {
+      const account = await stripe.accounts.create({
+        type: 'express',
+        capabilities: {
+          transfers: { requested: true },
+        },
+      });
+      stripeAccountId = account.id;
+    }
+
+    // Kullanıcıyı kaydet
     await newUserRef.set({
-      id: newUserRef.id,
+      id: userId,
       email,
       password: hashedPassword,
       name,
       userType,
+      stripeAccountId: stripeAccountId || null,
       createdAt: new Date(),
     });
 
@@ -41,6 +61,7 @@ router.post('/register', async (req, res) => {
     res.status(500).json({ message: 'Something went wrong' });
   }
 });
+
 
 // LOGIN
 router.post('/login', async (req, res) => {
@@ -90,6 +111,29 @@ router.post('/login', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Something went wrong' });
+  }
+});
+
+
+// Kullanıcıyı ID ile getir
+router.post('/get', async (req, res) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ message: 'User ID is required' });
+  }
+
+  try {
+    const userDoc = await db.collection('users').doc(userId).get();
+
+    if (!userDoc.exists) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    return res.status(200).json({ user: userDoc.data() });
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    return res.status(500).json({ message: 'Failed to fetch user' });
   }
 });
 

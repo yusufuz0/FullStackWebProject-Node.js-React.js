@@ -89,8 +89,8 @@ router.put('/update/quantity', checkAuth,checkCustomer, async (req, res) => {
   
 
 
-// Sepeti temizle (ödeme sonrası)
-router.delete('/clear', checkAuth,checkCustomer, async (req, res) => {
+// Sepeti temizle (ödeme sonrası) - webhook tarafından gerçekleşitiriliyor.
+/*router.delete('/clear', checkAuth,checkCustomer, async (req, res) => {
     const cartRef = db.collection('carts').doc(req.user.id);
     const doc = await cartRef.get();
   
@@ -98,7 +98,7 @@ router.delete('/clear', checkAuth,checkCustomer, async (req, res) => {
   
     await cartRef.set({ items: [] });
     res.json({ message: 'Cart cleared' });
-  });
+  });*/
   
 
   module.exports = router;

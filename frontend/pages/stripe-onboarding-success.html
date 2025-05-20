@@ -30,28 +30,19 @@
 </nav>
 
 
-  <!-- Page Content -->
-  <main id="success-container">
-    <h1>🎉 Payment Successful</h1>
-    <p>Thank you for your purchase!</p>
-    <a href="products.html">Continue Shopping</a>
-  </main>
+<!-- Page Content -->
+<main id="content">
+    <div class="stripe-onboarding-success-container">
+        <h2>Your Stripe account has been successfully created. 🎉</h2>
+        <p>You are now ready to start generating income from your product sales.</p>
+        <a href="dashboard.html">Return to Dashboard</a>
+  </div>
+</main>
+
 
   <script src="../scripts/auth.js"></script>
   <script src="../scripts/layout.js"></script>
-
-  <div id="scriptContainer"></div>
-  <script>
-    setTimeout(() => {
-      const script = document.createElement('script');
-      script.src = "../scripts/cartCount.js";
-      script.id = "cartCountScript";
-      document.getElementById('scriptContainer').appendChild(script);
-    }, 1000);
-  </script>
-
-  <script src="../assets/js/success.js"></script>
-  <script> checkAuth(); </script>
+  <script src="../scripts/cartCount.js"></script>
 
 
 </body>

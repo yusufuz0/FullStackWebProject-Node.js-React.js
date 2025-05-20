@@ -5,8 +5,6 @@ const {checkAuth, checkSeller, checkCustomer} = require('../middlewares/verifyTo
 const { db } = require('../config/firebase');
 
 
-
-
 router.post('/create-checkout-session', checkAuth,checkCustomer, async (req, res) => {
   try {
     const cartRef = db.collection('carts').doc(req.user.id);
@@ -24,7 +22,7 @@ router.post('/create-checkout-session', checkAuth,checkCustomer, async (req, res
 
     const lineItems = cartItems.map(item => ({
       price_data: {
-        currency: 'usd',
+        currency: 'gbp',
         product_data: {
           name: item.title,
         },
@@ -36,15 +34,12 @@ router.post('/create-checkout-session', checkAuth,checkCustomer, async (req, res
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
+      currency: 'gbp',
       mode: 'payment',
       success_url: 'http://127.0.0.1:5500/frontend/pages/success.html',
       cancel_url: 'http://127.0.0.1:5500/frontend/pages/cart.html',
       locale:'en',
       customer_email: req.user.email,
-      shipping_address_collection: {
-        allowed_countries: ['TR','GB'], // Sadece Türkiye ve İngiltere'den gönderim
-      },
-      billing_address_collection: 'required', 
       metadata: {
         userId: req.user.id,
         cartId: doc.id
@@ -61,8 +56,8 @@ router.post('/create-checkout-session', checkAuth,checkCustomer, async (req, res
 });
 
 
-// POST /api/stripe/mark-purchased
-router.post('/mark-purchased', checkAuth,checkCustomer, async (req, res) => {
+// POST /api/stripe/mark-purchased - buradaki işlemler Webhook'a taşındı
+/*router.post('/mark-purchased', checkAuth,checkCustomer, async (req, res) => {
   try {
     const userId = req.user.id;
     const cartRef = db.collection('carts').doc(userId);
@@ -154,7 +149,7 @@ router.post('/mark-purchased', checkAuth,checkCustomer, async (req, res) => {
     console.error('Error saving purchases:', err);
     res.status(500).json({ message: 'Error recording purchase' });
   }
-});
+});*/
 
 
 // GET /api/purchases - Kullanıcının satın aldığı ürünleri döner
@@ -194,7 +189,7 @@ router.get('/purchases', checkAuth,checkCustomer, async (req, res) => {
   }
 });
 
-
+// Satıcıların satışlarını listeler (satıcıya göre)
 router.get('/seller-sales', checkAuth, checkSeller, async (req, res) => {
   try {
     const sellerId = req.user.id;
@@ -247,6 +242,42 @@ router.get('/seller-sales', checkAuth, checkSeller, async (req, res) => {
   }
 });
 
+
+// GET onboarding link for a seller
+router.post('/create-account-link', async (req, res) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ message: 'userId is required' });
+  }
+
+  try {
+    // Firestore'dan kullanıcıyı çek
+    const userDoc = await db.collection('users').doc(userId).get();
+    if (!userDoc.exists) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const userData = userDoc.data();
+
+    if (!userData.stripeAccountId) {
+      return res.status(400).json({ message: 'User does not have a Stripe account' });
+    }
+
+    // Stripe onboarding link oluştur
+    const accountLink = await stripe.accountLinks.create({
+      account: userData.stripeAccountId,
+      refresh_url: 'http://127.0.0.1:5500/frontend/pages/stripe-onboarding-refresh.html',
+      return_url: 'http://127.0.0.1:5500/frontend/pages/stripe-onboarding-success.html',
+      type: 'account_onboarding',
+    });
+
+    res.status(200).json({ url: accountLink.url });
+  } catch (error) {
+    console.error('Stripe account link error:', error);
+    res.status(500).json({ message: 'Failed to create onboarding link' });
+  }
+});
 
 
 module.exports = router;

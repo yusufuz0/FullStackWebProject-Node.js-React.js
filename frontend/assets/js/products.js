@@ -30,7 +30,7 @@ function fetchProducts(category) {
           <p id="${ratingId}">Loading rating...</p>
           <p>${product.description.substring(0, 100)}...</p>
           <p>${product.category}</p>
-          <p><strong>$${product.price}</strong></p>
+          <p><strong>£${product.price}</strong></p>
         `;
         productList.appendChild(item);
 
