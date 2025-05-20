@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      totalRevenueEl.textContent = `$${data.totalRevenue.toFixed(2)}`;
+      totalRevenueEl.textContent = `£${data.totalRevenue.toFixed(2)}`;
   
       data.sales.forEach(sale => {
         const item = document.createElement('div');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         item.innerHTML = `
           <h3>Product Title: ${sale.productTitle}</h3>
           <p>Quantity Sold: ${sale.quantitySold}</p>
-          <p>Price: $${sale.price}</p> 
+          <p>Price: £${sale.price}</p> 
           <p>Sold on: ${new Date(sale.lastSoldAt).toLocaleString('en-US', {
             year: 'numeric',
             month: 'short',
