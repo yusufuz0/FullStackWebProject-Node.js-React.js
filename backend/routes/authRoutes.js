@@ -4,8 +4,21 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { db } = require('../config/firebase');
 const {checkAuth, checkSeller, checkCustomer} = require('../middlewares/verifyToken');
-
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const { rateLimit }= require('express-rate-limit');
+const RateLimitStore = require("../lib/RateLimitStore");
+
+const limiter = rateLimit({
+	windowMs: 1 * 60 * 1000, // 1 minutes
+	limit: 5, // Limit each IP to 5 requests per `window` (here, per 1 minutes).
+	// standardHeaders: 'draft-8', // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+	store: new RateLimitStore({ windowMs: 1 * 60 * 1000 }),
+  handler: (req, res, next) => {
+  return res.status(429).json({
+    message: 'Too many login attempts. Please try again later.'
+  });}
+})
 
 
 const usersCollection = db.collection('users');
@@ -64,7 +77,7 @@ router.post('/register', async (req, res) => {
 
 
 // LOGIN
-router.post('/login', async (req, res) => {
+router.post('/login', limiter, async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -116,7 +129,7 @@ router.post('/login', async (req, res) => {
 
 
 // Kullanıcıyı ID ile getir
-router.post('/get', async (req, res) => {
+router.post('/get',checkAuth, async (req, res) => {
   const { userId } = req.body;
 
   if (!userId) {

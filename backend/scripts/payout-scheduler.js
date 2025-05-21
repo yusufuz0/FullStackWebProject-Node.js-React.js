@@ -75,8 +75,8 @@ async function runPayoutScheduler() {
   }
 }
 
-// Cron job: Her gün saat 03:00'te çalıştır
-cron.schedule('46 14 * * *', () => {
+
+cron.schedule('19 14 * * *', () => {
   console.log('⏰ Cron job triggered: Payout process is starting...');
   runPayoutScheduler();
 },{
