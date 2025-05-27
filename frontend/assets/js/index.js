@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <p>${product.averageRating > 0 ? product.averageRating.toFixed(1) : 'No rating'} ⭐ (${product.ratingCount} votes)</p>
             <p>${product.description.substring(0, 100)}...</p>
             <p>${product.category}</p>
-            <p><strong>$${product.price}</strong></p>
+            <p><strong>£${product.price}</strong></p>
           `;
           topRatedContainer.appendChild(productItem);
         });

@@ -76,7 +76,7 @@ async function runPayoutScheduler() {
 }
 
 
-cron.schedule('19 14 * * *', () => {
+cron.schedule('51 17 * * *', () => {
   console.log('⏰ Cron job triggered: Payout process is starting...');
   runPayoutScheduler();
 },{

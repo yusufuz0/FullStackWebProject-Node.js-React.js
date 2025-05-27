@@ -42,9 +42,18 @@ const checkCustomer = (req, res, next) => {
   next();
 };
 
+// Sadece customer'lar için kontrol
+const checkAdmin = (req, res, next) => {
+  if (req.user.userType !== 'admin') {
+    return res.status(403).json({ message: 'Bad Request: Invalid user' });
+  }
+  next();
+};
+
 // Export
 module.exports = {
   checkAuth,
   checkSeller,
-  checkCustomer
+  checkCustomer,
+  checkAdmin
 };

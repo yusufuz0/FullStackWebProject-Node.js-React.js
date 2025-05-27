@@ -40,6 +40,8 @@ app.use('/api/cart', cartRoutes);
 const stripe = require('./routes/stripe');
 app.use('/api/stripe', stripe);
 
+app.use('/api/admin', require('./routes/adminRoutes'));
+
 
 
 

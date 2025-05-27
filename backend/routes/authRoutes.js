@@ -129,7 +129,7 @@ router.post('/login', limiter, async (req, res) => {
 
 
 // Kullanıcıyı ID ile getir
-router.post('/get',checkAuth, async (req, res) => {
+router.post('/get', async (req, res) => {
   const { userId } = req.body;
 
   if (!userId) {

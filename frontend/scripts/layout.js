@@ -11,12 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const productsLink = document.getElementById('productsLink');
     const purchasesLink = document.getElementById('purchasesLink');
     const salesLink = document.getElementById('salesLink');
+    const adminDashboardLink = document.getElementById('adminDashboardLink');
+  
 
     
-  
 
     productsLink.style.display = 'inline';
     
+
     if (token && user) {
       authLinks.style.display = 'none';
       logoutLink.style.display = 'inline';
@@ -35,6 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
         purchasesLink.style.display = 'inline';
         
       }
+      if (user.userType === 'admin') {
+        productsLink.style.display = 'inline';
+        adminDashboardLink.style.display = 'inline';
+      }
+      
     } else {
       authLinks.style.display = 'inline';
       logoutLink.style.display = 'none';
