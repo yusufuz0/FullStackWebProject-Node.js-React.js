@@ -40,7 +40,7 @@ function displayCartItems() {
       cartItem.classList.add('cart-item');
       cartItem.innerHTML = `
         <p>${item.title}</p>
-        <p>Price: $${item.price}</p>
+        <p>Price: £${item.price}</p>
        <!--  <p>Quantity: 
         <input type="number" value="${item.quantity}" min="1" onchange="updateItemQuantity('${item.productId}', this.value)" /></p> -->
         <button onclick="removeFromCart('${item.productId}')">Remove</button>

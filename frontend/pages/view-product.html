@@ -15,6 +15,7 @@
       <li><a href="index.html">Home</a></li>
       <li><a  id="productsLink" href="products.html" style="display: none;" >Products</a></li>
       <li id="dashboardLink" style="display: none;"><a href="dashboard.html">Dashboard</a></li>
+      <li id="adminDashboardLink" style="display: none;"><a href="admin-dashboard.html">Admin Dashboard</a></li>
       <li><a href="purchases.html" id="purchasesLink" style="display: none;">My Purchases</a></li>
       <li><a href="sales.html" id="salesLink" style="display: none;">My Sales</a></li>
       <li><a href="cart.html"  style="display: none;" id="cartLink">Cart (<span id="cartItemCount">0</span>)</a></li> <!-- Sepet Linki -->
@@ -38,6 +39,20 @@
   <script src="../scripts/auth.js"></script>
   <script src="../scripts/layout.js"></script>
   <script src="../scripts/cartCount.js"></script>
+
+    <!-- Bu sayfaya özel checkCustomer fonksiyonu -->
+  <script>
+    function checkCustomer() {
+      const userStr = localStorage.getItem('user');
+      const user = JSON.parse(userStr);
+
+      // Sadece müşteri ya da admin giriş yapabiliyorsa erişime izin ver
+      if (user.userType !== "customer" && user.userType !== "admin") {
+        window.location.href = '../pages/index.html';
+      }
+    }
+  </script>
+
   <script> checkAuth(); </script>
   <script> checkCustomer(); </script>
 

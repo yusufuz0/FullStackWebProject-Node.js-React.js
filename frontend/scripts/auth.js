@@ -31,6 +31,16 @@ function checkAuth() {
     }
   }
 
+    function checkAdmin() {
+    const userStr = localStorage.getItem('user');
+    const user = JSON.parse(userStr);
+  
+    if (user.userType !== "admin") {
+      // admin değilse index sayfasına yönlendir
+      window.location.href = '../pages/index.html';
+    }
+  }
+
   // Kullanıcı bilgilerini getiren fonksiyon
   function getCurrentUser() {
     const user = localStorage.getItem('user');

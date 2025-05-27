@@ -124,13 +124,14 @@ window.addEventListener('load', () => {
 
   const token = localStorage.getItem('token'); // Kullanıcının token'ı
 
-  // "Add to Cart" butonunu seç
   const addToCartBtn = document.getElementById('addToCartBtn');
+  const ratingStars = document.getElementById('ratingStars');
   
-  // Eğer kullanıcı satıcıysa ya da token yoksa, butonu gizle
-  if (user && user.userType === 'seller' || token === null) {
+  // Eğer kullanıcı satıcıysa, adminse ya da token yoksa, butonu gizle
+  if (user && user.userType === 'seller' || user.userType === 'admin' || token === null) {
     if (addToCartBtn) {
       addToCartBtn.style.display = 'none'; // Butonu gizle
+      ratingStars.style.display = 'none'; // Yıldızları gizle
     }
   }
 
