@@ -171,7 +171,7 @@ router.get('/latest-orders', async (req, res) => {
         productTitle: orderData.title || 'N/A',
         price: parseFloat(orderData.price),
         quantity: orderData.quantity,
-        date: orderData.createdAt
+        date: orderData.createdAt.toDate()
       });
     }
 

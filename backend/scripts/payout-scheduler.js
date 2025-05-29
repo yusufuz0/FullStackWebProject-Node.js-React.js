@@ -5,11 +5,9 @@ const cron = require('node-cron');
 
 async function runPayoutScheduler() {
   try {
-    
     const balance = await stripe.balance.retrieve();
     console.log('🔍 Stripe Balance:', balance.available);
 
-    console.log('🔄 Payout scheduler started...');
 
     const snapshot = await db.collection('orders')
       .where('payoutStatus', '==', 'pending')
@@ -53,19 +51,27 @@ async function runPayoutScheduler() {
 
       console.log(`💸 Sending $${(sellerPayout / 100).toFixed(2)} to seller ${sellerId}`);
 
-      await stripe.transfers.create({
+      const transfer = await stripe.transfers.create({
         amount: sellerPayout,
         currency: 'gbp',
         destination: data.stripeAccountId,
         description: 'NotesMarket payout',
       });
+      console.log(`📦 Transfer completed for ${sellerId}. Transfer ID: ${transfer.id}`);
 
-      for (const ref of data.orderRefs) {
-        await ref.update({
-          payoutStatus: 'paid',
-          paidAt: new Date(),
-        });
+      if (transfer && transfer.id) {
+        for (const ref of data.orderRefs) {
+          await ref.update({
+            payoutStatus: 'paid',
+            paidAt: new Date(),
+            transferId: transfer.id,
+          });
+        }
+        console.log(`✅ Payout marked as paid for seller ${sellerId}`);
+      } else {
+        console.warn(`⚠️ Transfer may not have completed for seller ${sellerId}`);
       }
+
     }
 
     console.log('✅ Payout process completed.');
@@ -76,7 +82,7 @@ async function runPayoutScheduler() {
 }
 
 
-cron.schedule('51 17 * * *', () => {
+cron.schedule('25 11 * * *', () => {
   console.log('⏰ Cron job triggered: Payout process is starting...');
   runPayoutScheduler();
 },{
