@@ -1,1 +1,1 @@
-# NodeJsSplitWebProject
+# Full Stack Web Project
