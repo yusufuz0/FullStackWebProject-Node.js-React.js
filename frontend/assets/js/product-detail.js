@@ -128,7 +128,7 @@ window.addEventListener('load', () => {
   const ratingStars = document.getElementById('ratingStars');
   
   // Eğer kullanıcı satıcıysa, adminse ya da token yoksa, butonu gizle
-  if (user && user.userType === 'seller' || user.userType === 'admin' || token === null) {
+  if (user && user?.userType === 'seller' || user?.userType === 'admin' || token === null) {
     if (addToCartBtn) {
       addToCartBtn.style.display = 'none'; // Butonu gizle
       ratingStars.style.display = 'none'; // Yıldızları gizle
