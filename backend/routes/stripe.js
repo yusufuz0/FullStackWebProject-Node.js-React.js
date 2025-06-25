@@ -36,8 +36,8 @@ router.post('/create-checkout-session', checkAuth,checkCustomer, async (req, res
       line_items: lineItems,
       currency: 'gbp',
       mode: 'payment',
-      success_url: 'http://127.0.0.1:5500/frontend/pages/success.html',
-      cancel_url: 'http://127.0.0.1:5500/frontend/pages/cart.html',
+      success_url: 'http://localhost:3000/Success',
+      cancel_url: 'http://localhost:3000/Cart',
       locale:'en',
       customer_email: req.user.email,
       metadata: {
@@ -267,8 +267,8 @@ router.post('/create-account-link', async (req, res) => {
     // Stripe onboarding link oluştur
     const accountLink = await stripe.accountLinks.create({
       account: userData.stripeAccountId,
-      refresh_url: 'http://127.0.0.1:5500/frontend/pages/stripe-onboarding-refresh.html',
-      return_url: 'http://127.0.0.1:5500/frontend/pages/stripe-onboarding-success.html',
+      refresh_url: "http://localhost:3000/stripe-refresh",
+      return_url: "http://localhost:3000/stripe-success",
       type: 'account_onboarding',
     });
 
