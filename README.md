@@ -26,13 +26,13 @@ Define payment details via Stripe API
 Filter, preview, and purchase products<br>
 Secure payment with Stripe<br>
 Full access to purchased notes<br>
-Ratings
+Rating system
 
 <br>
 
 🛠️ Admin Panel
 
-Sales analytics with charts (via Chart.js)<br>
+Sales analytics <br>
 View top-selling products and high-revenue sellers<br>
 Authority to view and delete any product<br>
 
