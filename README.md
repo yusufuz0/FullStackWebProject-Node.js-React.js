@@ -26,7 +26,7 @@ Define payment details via Stripe API
 Filter, preview, and purchase products<br>
 Secure payment with Stripe<br>
 Full access to purchased notes<br>
-Leave ratings
+Ratings
 
 <br>
 
