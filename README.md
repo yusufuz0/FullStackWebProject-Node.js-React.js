@@ -2,123 +2,84 @@
 
 NotesMarket is a comprehensive e-commerce platform where students can buy and sell class notes. It features seller and customer roles, as well as a dedicated admin panel for platform-wide management.
 
-
+<br>
 
 🧠 Project Evolution
 
 The frontend of the project was initially developed using plain HTML, CSS, and JavaScript. Later, it was rebuilt using React.js and TailwindCSS to achieve a more modern, maintainable, and scalable architecture.
 
+<br><br>
 
-
-
-
-🚀 Features
+ ## Features
 
 👨‍🏫 Seller Panel
 
-Add, edit, and delete class notes (products)
-
-View sales statistics and total revenue
-
+Add, edit, and delete class notes (products)<br>
+View sales statistics and total revenue<br>
 Define payment details via Stripe API
 
-
+<br>
 
 
 🎓 Customer Panel
 
-Filter, preview, and purchase products
-
-Secure payment with Stripe
-
-Full access to purchased notes
-
+Filter, preview, and purchase products<br>
+Secure payment with Stripe<br>
+Full access to purchased notes<br>
 Leave ratings and reviews
 
-
-
+<br>
 
 🛠️ Admin Panel
 
-Sales analytics with charts (via Chart.js)
+Sales analytics with charts (via Chart.js)<br>
+View top-selling products and high-revenue sellers<br>
+Authority to view and delete any product<br>
 
-View top-selling products and high-revenue sellers
-
-Authority to view and delete any product
-
-
+<br>
 
 
 💰 Revenue Distribution
 
-Sales income is split as follows:
-
-80% to the seller
-
-20% to the platform
-
+Sales income is split as follows:<br>
+80% to the seller<br>
+20% to the platform<br>
 This distribution is automatically processed on the 1st of every month using a node-cron scheduler.
 
 
-
+<br>
 
 🔐 Security
 
-JWT for authentication
-
-Rate limiting to prevent brute-force attacks
-
-Protection against unauthorized access
+JWT for authentication<br>
+Rate limiting to prevent brute-force attacks<br>
+Protection against unauthorized access<br>
 
 
-
+<br>
 
 🛠️ Technologies Used
 
-Frontend:
+Frontend: 
 
-HTML
-
-CSS
-
-JavaScript
-
-React.js
-
-TailwindCSS
-
-Axios
-
-Chart.js
+HTML <br>CSS<br> JavaScript<br> React.js<br> TailwindCSS<br> Axios<br> Chart.js
 
 
 
 Backend:
 
-Node.js (Express)
-
-RESTful API
-
-JWT Authentication
-
-Node-cron
-
-Stripe API & Webhooks
-
-Firebase Firestore
+Node.js (Express)<br> RESTful API<br> JWT Authentication<br> Node-cron<br> Stripe API & Webhooks<br> Firebase Firestore
 
 
 Tools:
 
-Git & GitHub
+Git & GitHub<br> Postman
 
-Postman
-
-
+<br>
 📎 Notes
 
 The project has been developed with real-world deployment in mind, prioritizing security, sustainability, and scalability. All development was managed with version control, and each feature was implemented on separate branches for maintainability.
-
+<br>
 
 Home page:
 ![HomePage](https://github.com/user-attachments/assets/d3fdf6c9-1dd2-473b-8e21-909b2b6c7cf6)
