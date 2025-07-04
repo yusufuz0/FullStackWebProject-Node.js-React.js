@@ -2,9 +2,14 @@
 
 NotesMarket is a comprehensive e-commerce platform where students can buy and sell class notes. It features seller and customer roles, as well as a dedicated admin panel for platform-wide management.
 
+
+
 🧠 Project Evolution
 
 The frontend of the project was initially developed using plain HTML, CSS, and JavaScript. Later, it was rebuilt using React.js and TailwindCSS to achieve a more modern, maintainable, and scalable architecture.
+
+
+
 
 
 🚀 Features
@@ -18,6 +23,8 @@ View sales statistics and total revenue
 Define payment details via Stripe API
 
 
+
+
 🎓 Customer Panel
 
 Filter, preview, and purchase products
@@ -29,6 +36,8 @@ Full access to purchased notes
 Leave ratings and reviews
 
 
+
+
 🛠️ Admin Panel
 
 Sales analytics with charts (via Chart.js)
@@ -36,6 +45,8 @@ Sales analytics with charts (via Chart.js)
 View top-selling products and high-revenue sellers
 
 Authority to view and delete any product
+
+
 
 
 💰 Revenue Distribution
@@ -49,6 +60,8 @@ Sales income is split as follows:
 This distribution is automatically processed on the 1st of every month using a node-cron scheduler.
 
 
+
+
 🔐 Security
 
 JWT for authentication
@@ -56,6 +69,8 @@ JWT for authentication
 Rate limiting to prevent brute-force attacks
 
 Protection against unauthorized access
+
+
 
 
 🛠️ Technologies Used
